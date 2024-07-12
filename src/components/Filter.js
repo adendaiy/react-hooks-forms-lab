@@ -16,19 +16,20 @@
 
 // export default Filter;
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 function Filter({ onCategoryChange, onSearchChange, search }) {
   const [searchText, setSearchText] = useState(search || "");
-
-  useEffect(() => {
-    setSearchText(search || "");
-  }, [search]);
 
   function handleSearchChange(e) {
     const text = e.target.value;
     setSearchText(text);
     onSearchChange(text);
+  }
+
+  // Update searchText if search prop changes
+  if (search !== searchText) {
+    setSearchText(search || "");
   }
 
   return (
@@ -51,4 +52,5 @@ function Filter({ onCategoryChange, onSearchChange, search }) {
 }
 
 export default Filter;
+
 

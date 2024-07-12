@@ -36,7 +36,6 @@ import React, { useState } from "react";
 import ItemForm from "./ItemForm";
 import Filter from "./Filter";
 import Item from "./Item";
-import { v4 as uuid } from "uuid"; // Import uuid for generating unique IDs
 
 function ShoppingList({ items }) {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -51,6 +50,11 @@ function ShoppingList({ items }) {
     setSearchText(text);
   }
 
+  // Function to add new item
+  function handleItemFormSubmit(newItem) {
+    setAllItems([...allItems, newItem]); // Add new item to the list of all items
+  }
+
   // Filter items based on selected category and search text
   const itemsToDisplay = allItems.filter((item) => {
     const matchesCategory =
@@ -59,16 +63,10 @@ function ShoppingList({ items }) {
     return matchesCategory && matchesSearch;
   });
 
-  // Function to add new item
-  function addItem(newItem) {
-    newItem.id = uuid(); // Assign a unique ID to the new item
-    setAllItems([...allItems, newItem]); // Add new item to the list of all items
-  }
-
   return (
     <div className="ShoppingList">
-      <ItemForm onItemFormSubmit={addItem} />
-      <Filter onCategoryChange={handleCategoryChange} onSearchChange={handleSearchChange} />
+      <ItemForm onItemFormSubmit={handleItemFormSubmit} />
+      <Filter onCategoryChange={handleCategoryChange} onSearchChange={handleSearchChange} search={searchText} />
       <ul className="Items">
         {itemsToDisplay.map((item) => (
           <Item key={item.id} name={item.name} category={item.category} />

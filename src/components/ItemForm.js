@@ -24,6 +24,7 @@
 // }
 
 // export default ItemForm;
+
 import React, { useState } from "react";
 import { v4 as uuid } from "uuid"; // Import uuid for generating unique IDs
 
@@ -41,13 +42,24 @@ function ItemForm({ onItemFormSubmit }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    // Validate input if needed
+    if (!itemName.trim()) {
+      alert("Please enter an item name");
+      return;
+    }
+
     const newItem = {
       id: uuid(), // Generate unique ID using uuid
       name: itemName,
       category: itemCategory,
     };
-    onItemFormSubmit(newItem); // Pass new item object to parent component
-    setItemName(""); // Clear input fields after form submission
+
+    // Pass new item object to parent component via callback prop
+    onItemFormSubmit(newItem);
+
+    // Clear input fields after form submission
+    setItemName("");
     setItemCategory("Produce"); // Reset category to initial value
   }
 
@@ -55,8 +67,15 @@ function ItemForm({ onItemFormSubmit }) {
     <form className="NewItem" onSubmit={handleSubmit}>
       <label>
         Name:
-        <input type="text" name="name" value={itemName} onChange={handleNameChange}
-          placeholder="Enter item name"required/>
+        <input
+          type="text"
+          name="name"
+          value={itemName}
+          onChange={handleNameChange}
+          placeholder="Enter item name"
+          required // HTML5 validation: required field
+          aria-label="Item Name" // Accessibility: label for screen readers
+        />
       </label>
 
       <label>
@@ -64,8 +83,9 @@ function ItemForm({ onItemFormSubmit }) {
         <select
           name="category"
           value={itemCategory}
-          onChange={handleCategoryChange} >
-            
+          onChange={handleCategoryChange}
+          aria-label="Item Category" // Accessibility: label for screen readers
+        >
           <option value="Produce">Produce</option>
           <option value="Dairy">Dairy</option>
           <option value="Dessert">Dessert</option>
@@ -78,4 +98,5 @@ function ItemForm({ onItemFormSubmit }) {
 }
 
 export default ItemForm;
+
 
