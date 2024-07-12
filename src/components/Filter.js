@@ -1,9 +1,45 @@
-import React from "react";
+// import React from "react";
 
-function Filter({ onCategoryChange }) {
+// function Filter({ onCategoryChange }) {
+//   return (
+//     <div className="Filter">
+//       <input type="text" name="search" placeholder="Search..." />
+//       <select name="filter" onChange={onCategoryChange}>
+//         <option value="All">Filter by category</option>
+//         <option value="Produce">Produce</option>
+//         <option value="Dairy">Dairy</option>
+//         <option value="Dessert">Dessert</option>
+//       </select>
+//     </div>
+//   );
+// }
+
+// export default Filter;
+
+import React, { useState, useEffect } from "react";
+
+function Filter({ onCategoryChange, onSearchChange, search }) {
+  const [searchText, setSearchText] = useState(search || "");
+
+  useEffect(() => {
+    setSearchText(search || "");
+  }, [search]);
+
+  function handleSearchChange(e) {
+    const text = e.target.value;
+    setSearchText(text);
+    onSearchChange(text);
+  }
+
   return (
     <div className="Filter">
-      <input type="text" name="search" placeholder="Search..." />
+      <input
+        type="text"
+        name="search"
+        placeholder="Search..."
+        value={searchText}
+        onChange={handleSearchChange}
+      />
       <select name="filter" onChange={onCategoryChange}>
         <option value="All">Filter by category</option>
         <option value="Produce">Produce</option>
@@ -15,3 +51,4 @@ function Filter({ onCategoryChange }) {
 }
 
 export default Filter;
+
